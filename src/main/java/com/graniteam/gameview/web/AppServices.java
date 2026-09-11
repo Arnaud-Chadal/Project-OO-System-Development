@@ -12,5 +12,5 @@ public class AppServices
     public AppServices() {}
 
     @GetMapping("/test")
-    public String test() {return "test test";}
+    public Boolean test() {return services.publishReview("problem", "fqfefge", 3);}
 }

@@ -13,8 +13,8 @@ public class GameServices
     @Autowired
     private GameRepository gameRepository;
 
-    public Game addGame(Game Game) {
-        return gameRepository.save(Game);
+    public Game addGame(Game game) {
+        return gameRepository.save(game);
     }
 
     public List<Game> getAllGames() {

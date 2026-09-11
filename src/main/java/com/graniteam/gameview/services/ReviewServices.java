@@ -13,8 +13,8 @@ public class ReviewServices
     @Autowired
     private ReviewRepository reviewRepository;
 
-    public Review addReview(Review Review) {
-        return reviewRepository.save(Review);
+    public Review addReview(Review review) {
+        return reviewRepository.save(review);
     }
 
     public List<Review> getAllReviews() {

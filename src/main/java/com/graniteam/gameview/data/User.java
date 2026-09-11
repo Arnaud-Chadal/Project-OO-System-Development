@@ -2,6 +2,7 @@ package com.graniteam.gameview.data;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "\"user\"")
 public class User
 {
     @Id

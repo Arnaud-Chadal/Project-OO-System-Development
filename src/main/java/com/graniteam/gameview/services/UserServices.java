@@ -13,8 +13,8 @@ public class UserServices
     @Autowired
     private UserRepository userRepository;
 
-    public User addUser(User User) {
-        return userRepository.save(User);
+    public User addUser(User user) {
+        return userRepository.save(user);
     }
 
     public List<User> getAllUsers() {
