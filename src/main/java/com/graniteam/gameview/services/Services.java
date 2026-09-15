@@ -2,6 +2,8 @@ package com.graniteam.gameview.services;
 import com.graniteam.gameview.data.Review;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class Services
 {
@@ -18,5 +20,5 @@ public class Services
         return true;
     }
 
-
+    public List<Review> getAllReviews(){return reviewServices.getAllReviews();}
 }
