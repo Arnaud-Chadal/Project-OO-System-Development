@@ -1,11 +1,15 @@
 package com.graniteam.gameview.data;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
 public class GameState
 {
 
-    //clé primaire entre les deux id
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_seq")
+    @SequenceGenerator(name = "game_seq", sequenceName = "game_id_seq", allocationSize = 1)
+    private Long id;
+
     private Integer gameId;
     private Integer userId;
     private String state;

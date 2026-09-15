@@ -17,6 +17,10 @@ public class ReviewServices
         return reviewRepository.save(review);
     }
 
+    public void deleteReview(Review review) {
+        reviewRepository.delete(review);
+    }
+
     public List<Review> getAllReviews() {
         return (List<Review>) reviewRepository.findAll();
     }
