@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "4.1.1"
+	id("org.springframework.boot") version "3.3.3"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -18,9 +18,12 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-webmvc")
-	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation ("org.springframework.boot:spring-boot-starter-web")
+    implementation ("com.h2database:h2")
+    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+    testImplementation ("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {
