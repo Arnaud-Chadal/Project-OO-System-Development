@@ -22,9 +22,13 @@ public class Services
         this.userServices = userServices;
     }
 
-    public Long addGame(Long userId, String name, String purchaseDate, String device)
+    public User getUserById(long userId) {
+        Optional<User> userById = userServices.getUserById(userId);
+        return userById.orElse(null);
+    }
+
+    public Long addGame(Game newGame)
     {
-        Game newGame = new Game(name, userId, purchaseDate, device);
         gameServices.addGame(newGame);
         return newGame.getId();
     }

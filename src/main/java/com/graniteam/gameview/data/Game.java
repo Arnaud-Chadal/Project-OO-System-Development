@@ -10,26 +10,28 @@ public class Game {
     private Long id;
 
     private String name;
-    private Long userId;
     private String purchaseDate;
     private String playingDevice;
     private Float playTimeHours;
     private String state;
 
+    @ManyToOne
+    public User user;
+
     public Game()
     {
         name = "";
-        userId = 0L;
+        user = null;
         purchaseDate = "";
         playingDevice = "";
         playTimeHours = 0f;
         state = "stopped";
     }
 
-    public Game(String name, Long userId, String purchaseDate, String playingDevice)
+    public Game(String name, String purchaseDate, String playingDevice)
     {
         this.name = name;
-        this.userId = userId;
+        user = null;
         this.purchaseDate = purchaseDate;
         this.playingDevice = playingDevice;
         playTimeHours = 0f;
@@ -41,8 +43,8 @@ public class Game {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public Long getUserId() {return userId;}
-    public void setUserId(Long userId) {this.userId = userId;}
+    public User getUser() {return user;}
+    public void setUser(User newUser) {user = newUser;}
 
     public String getPurchaseDate() {return purchaseDate;}
     public void setPurchaseDate(String purchaseDate) {this.purchaseDate = purchaseDate;}

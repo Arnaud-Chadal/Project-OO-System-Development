@@ -1,6 +1,10 @@
 package com.graniteam.gameview.data;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 @Entity
 @Table(name = "\"user\"")
 public class User
@@ -12,18 +16,21 @@ public class User
 
     private String name;
     private String accountCreationDate;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    public Collection<Game> gamesPossessed;
 
     public User()
     {
         name = "";
         accountCreationDate = "";
+        gamesPossessed = new ArrayList<>();
     }
 
     public User(String name, String accountCreationDate)
     {
         this.name = name;
         this.accountCreationDate = accountCreationDate;
+        gamesPossessed = new ArrayList<>();
     }
 
     public Long getId() {return id;}
@@ -33,4 +40,17 @@ public class User
 
     public String getAccountCreationDate() {return accountCreationDate;}
     public void setAccountCreationDate(String accountCreationDate) {this.accountCreationDate = accountCreationDate;}
+
+    public Collection<Game> getGamesPossessed() {
+        return gamesPossessed;
+    }
+
+    public void setGamesPossessed(Collection<Game> gamesPossessed) {
+        this.gamesPossessed = gamesPossessed;
+    }
+
+    public void addGamePossessed(Game game) {
+        this.getGamesPossessed().add(game);
+        game.user = this;
+    }
 }
