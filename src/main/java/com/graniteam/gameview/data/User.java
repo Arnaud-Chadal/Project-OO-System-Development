@@ -1,9 +1,10 @@
 package com.graniteam.gameview.data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "\"user\"")
@@ -17,12 +18,13 @@ public class User
     private String name;
     private String accountCreationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     public Collection<Game> gamesPossessed;
 
     public User()
     {
         name = "";
-        accountCreationDate = "";
+        accountCreationDate = LocalDate.now().toString();
         gamesPossessed = new ArrayList<>();
     }
 

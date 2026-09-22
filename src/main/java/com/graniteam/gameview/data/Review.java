@@ -9,25 +9,23 @@ public class Review
     @SequenceGenerator(name = "review_seq", sequenceName = "review_id_seq", allocationSize = 1)
     private Long id;
 
-    private Long gameId;
-    private Long userId;
+    @ManyToOne
+    private Game game;
     private String title;
     private String description;
     private Float rating;
 
     public Review()
     {
-        gameId = 0L;
-        userId = 0L;
+        game = null;
         title = "";
         description = "";
-        rating = 5f;
+        rating = -1f;
     }
 
-    public Review(Long gameId, Long userId, String title, String description, Float rating)
+    public Review(Game game, User user, String title, String description, Float rating)
     {
-        this.gameId = gameId;
-        this.userId = userId;
+        this.game = game;
         this.title = title;
         this.description = description;
         this.rating = rating;
@@ -35,11 +33,8 @@ public class Review
 
     public Long getId() {return id;}
 
-    public Long getGameId() {return gameId;}
-    public void setGameId(Long gameId) {this.gameId = gameId;}
-
-    public Long getUserId() {return userId;}
-    public void setUserId(Long userId) {this.userId = userId;}
+    public Game getGame() {return game;}
+    public void setGame(Game game) {this.game = game;}
 
     public String getTitle() {return title;}
     public void setTitle(String title) {this.title = title;}
