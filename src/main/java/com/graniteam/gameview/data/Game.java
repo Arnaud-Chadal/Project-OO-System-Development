@@ -1,5 +1,10 @@
 package com.graniteam.gameview.data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 public class Game {
@@ -10,30 +15,39 @@ public class Game {
     private Long id;
 
     private String name;
-    private Long userId;
     private String purchaseDate;
     private String playingDevice;
     private Float playTimeHours;
-    private String state;
+    private GameState state;
+
+    @ManyToOne
+    @JsonIgnore
+    public User user;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
+    @JsonIgnore
+    public Collection<Review> reviews;
 
     public Game()
     {
         name = "";
-        userId = 0L;
-        purchaseDate = "";
+        user = null;
+        purchaseDate = LocalDate.now().toString();
         playingDevice = "";
         playTimeHours = 0f;
-        state = "stopped";
+        state = GameState.Default;
+        reviews = new ArrayList<>();
     }
 
-    public Game(String name, Long userId, String purchaseDate, String playingDevice)
+    public Game(String name, String purchaseDate, String playingDevice)
     {
         this.name = name;
-        this.userId = userId;
+        user = null;
         this.purchaseDate = purchaseDate;
         this.playingDevice = playingDevice;
         playTimeHours = 0f;
-        state = "stopped";
+        state = GameState.Default;
+        reviews = new ArrayList<>();
     }
 
     public Long getId() {return id;}
@@ -41,8 +55,8 @@ public class Game {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public Long getUserId() {return userId;}
-    public void setUserId(Long userId) {this.userId = userId;}
+    public User getUser() {return user;}
+    public void setUser(User newUser) {user = newUser;}
 
     public String getPurchaseDate() {return purchaseDate;}
     public void setPurchaseDate(String purchaseDate) {this.purchaseDate = purchaseDate;}
@@ -53,6 +67,19 @@ public class Game {
     public Float getPlayTimeHours() {return playTimeHours;}
     public void setPlayTimeHours(Float playTimeHours) {this.playTimeHours = playTimeHours;}
 
-    public String getState() {return state;}
-    public void setState(String state) {this.state = state;}
+    public GameState getState() {return state;}
+    public void setState(GameState state) {this.state = state;}
+
+    public Collection<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Collection<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void addReview(Review review) {
+        this.getReviews().add(review);
+        review.setGame(this);
+    }
 }

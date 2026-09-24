@@ -1,59 +1,106 @@
 package com.graniteam.gameview.web;
+import com.graniteam.gameview.data.Game;
 import com.graniteam.gameview.data.Review;
+import com.graniteam.gameview.data.User;
+import com.graniteam.gameview.services.GameServices;
+import com.graniteam.gameview.services.ReviewServices;
+import com.graniteam.gameview.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.graniteam.gameview.services.Services;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
 public class AppServices
 {
     @Autowired
-    private Services services;
+    private GameServices gameServices;
+    @Autowired
+    private ReviewServices reviewServices;
+    @Autowired
+    private UserServices userServices;
 
     public AppServices() {}
 
+    // GET REQUESTS
 
-    @GetMapping("/addGame/userId:{userId}/name:{name}/purchaseDate:{purchaseDate}/device:{device}")
-    public Long addGame(@PathVariable("userId") Long userId, @PathVariable("name") String name, @PathVariable("purchaseDate") String purchaseDate, @PathVariable("device") String device)
-    {
-        return services.addGame(userId, name, purchaseDate, device);
+    @GetMapping("/user/{userId}")
+    public User getUserById(@PathVariable long userId) {
+        return userServices.getUserById(userId);
     }
 
-    @GetMapping("/addReview/userId:{userId}/gameId:{gameId}/title:{title}/description:{description}/rating:{rating}")
-    public Long addReview(@PathVariable("userId") Long userId, @PathVariable("gameId") Long gameId, @PathVariable("title") String title, @PathVariable("description") String description, @PathVariable("rating") Float rating)
-    {
-        return services.addReview(userId, gameId, title, description, rating);
+    @GetMapping("/users")
+    public List<User> getAllUser() {
+        return userServices.getAllUsers();
     }
 
-    @GetMapping("/addUser/name:{name}/accountCreationDate:{accountCreationDate}")
-    public Long addUser(@PathVariable("name") String name, @PathVariable("accountCreationDate") String accountCreationDate)
-    {
-        return services.addUser(name, accountCreationDate);
+    @GetMapping("/games")
+    public List<Game> getAllGames() {return gameServices.getAllGames();}
+
+    @GetMapping("/gamesByUser/{userId}")
+    public Collection<Game> getGamesForUserId(@PathVariable long userId) {return gameServices.getGamesForUserId(userId);}
+
+    @GetMapping("/getReviewsByGame/{gameId}")
+    public Collection<Review> getReviewsForGameId(@PathVariable long gameId) {
+        return reviewServices.getReviewsForGameId(gameId);
     }
 
-    @GetMapping("/editGameState/gameId:{gameId}/state:{state}/hoursToAdd:{hoursToAdd}")
-    public Boolean editGame(@PathVariable("gameId") Long gameId, @PathVariable("state") String state, @PathVariable("hoursToAdd") Float hoursToAdd)
+    // POST REQUESTS
+
+    @PostMapping("/addUser")
+    public User addUser(@RequestBody User user)
     {
-        return services.editGameState(gameId, state, hoursToAdd);
+        return userServices.addUser(user);
     }
 
-    @GetMapping("/editUser/userId:{userId}/name:{name}")
-    public Boolean editUser(@PathVariable("userId") Long userId, @PathVariable("name") String name)
+    @PostMapping("/addGame")
+    public Game addGame(@RequestBody Game game)
     {
-        return services.editUser(userId, name);
+        return gameServices.addGame(game);
     }
 
-    @GetMapping("/editReview/reviewId:{reviewId}/title:{title}/description:{description}/rating:{rating}")
-    public Boolean editReview(@PathVariable("reviewId") Long reviewId, @PathVariable("title") String title, @PathVariable("description") String description, @PathVariable("rating") Float rating)
+    @PostMapping("/addGame/{userId}")
+    public Game addGame(@RequestBody Game game, @PathVariable long userId)
     {
-        return services.editReview(reviewId, title, description, rating);
+        return gameServices.addGame(game, userId);
     }
 
-    @GetMapping("/deleteReview/reviewId:{reviewId}")
-    public Boolean deleteReview(@PathVariable("reviewId") Long reviewId)
+    @PostMapping("/addReview")
+    public Review addReview(@RequestBody Review review)
     {
-        return services.deleteReview(reviewId);
+        return reviewServices.addReview(review);
+    }
+
+    @PostMapping("/addReview/{gameId}")
+    public Review addReview(@RequestBody Review review, @PathVariable long gameId)
+    {
+        return reviewServices.addReview(review, gameId);
+    }
+
+    // PUT REQUESTS
+
+    @PutMapping("/editGame/{gameId}")
+    public Game editGame(@RequestBody Game game, @PathVariable Long gameId)
+    {
+        return gameServices.updateGame(game, gameId);
+    }
+
+    @PutMapping("/editUser/{userId}")
+    public User editUser(@RequestBody User user, @PathVariable Long userId)
+    {
+        return userServices.updateUser(user, userId);
+    }
+
+    @PutMapping("/editReview/{reviewId}")
+    public Review editReview(@RequestBody Review review, @PathVariable Long reviewId)
+    {
+        return reviewServices.updateReview(review, reviewId);
+    }
+
+    @DeleteMapping("/deleteReview/{reviewId}")
+    public Boolean deleteReview(@PathVariable Long reviewId)
+    {
+        return reviewServices.deleteReview(reviewId);
     }
 }
